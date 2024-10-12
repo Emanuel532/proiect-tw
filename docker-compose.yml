@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: skillsharedb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/backend
+    command: bash -c "./wait-for-it.sh db:3306 -- python manage.py runserver 0.0.0.0:8000"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: skillsharedb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    depends_on:
+      - db
+
+  web:
+    build: ./skillshare_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./skillshare_frontend:/skillshare_frontend
+      - /skillshare_frontend/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+
+volumes:
+  mysql_data: {}
+
+
