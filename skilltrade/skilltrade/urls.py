@@ -25,7 +25,7 @@ urlpatterns = [
     path('posts/', views.post_list, name='posts'),
     path('posts/post_id=<int:post_id>/', views.post_by_id, name='post_by_id'),
     path('author/user_id=<int:author_id>/posts/', views.posts_by_author, name='posts_by_author_id'),
-    path('author/user_id=<int:author_id>/post_id<int:post_id>/', views.post_by_user_and_index, name='post_by_user_and_index'),
+    path('author/user_id=<int:author_id>/post_id=<int:post_id>/', views.post_by_user_and_index, name='post_by_user_and_index'),
     path('skills/skill_id=<int:skill_id>/offered/', views.posts_by_skills_offered, name='posts_by_skills_offered'),
     path('skills/skill_id=<int:skill_id>/needed/', views.posts_by_skills_needed, name='posts_by_skills_needed'),
     path('accounts/', include('accounts.urls')),
