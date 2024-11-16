@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>By: {{ post.author.username }}</p>
+    <p>{{ post.content }}</p>
+    <h3>Skills Offered:</h3>
+    <ul>
+        {% for skill in post.skills_offered.all %}
+        <li>{{ skill.name }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Skills Needed:</h3>
+    <ul>
+        {% for skill in post.skills_needed.all %}
+        <li>{{ skill.name }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
