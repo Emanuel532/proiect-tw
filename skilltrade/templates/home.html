@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Landing Page/HomePage{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+Hi {{ user.username }}!
+
+<!-- poate asta e util pe /profile, momentan las aici-->
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Log Out</button>
+  </form>
+  <p><a href="{% url 'password_change' %}">Password Change</a></p>
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">Log In</a>
+<a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+{% endblock %}
