@@ -7,7 +7,7 @@ from .models import Post
 # Create your views here.
 def post_list(request):
     posts = Post.objects.all()
-    return render(request, 'home.html', {'posts': posts})
+    return render(request, 'posts.html', {'posts': posts})
 
 def post_by_id(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -34,5 +34,5 @@ def post_by_user_and_index(request, author_id,post_id):
     post = posts[post_id - 1]
     return render(request, 'post_page.html', {'post': post})
 
-def landing(request):
-    return render(request, 'landing.html')
+#def landing(request):
+ #   return render(request, 'landing.html')   -manu o facut deja landing deci nu mai e nevoie de asta ca root

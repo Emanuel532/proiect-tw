@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
-
 from skilltrade_aplicatie import views
 
 urlpatterns = [
@@ -30,6 +29,6 @@ urlpatterns = [
     path('skills/skill_id=<int:skill_id>/needed/', views.posts_by_skills_needed, name='posts_by_skills_needed'),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path('', TemplateView.as_view(template_name="home.html"), name="home"),
 
 ]
