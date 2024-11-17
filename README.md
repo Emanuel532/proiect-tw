@@ -1,8 +1,8 @@
-﻿# SkillTrade
+# SkillTrade
 
 ## 1 for sample data creation
 
-```$python manage.py create_sample data```
+```$python manage.py create_sample_data```
 
 ## routes for get requests
 
@@ -14,5 +14,5 @@
  + <strong>author/user_id={your_user_id}/post_id={your_post_id}/</strong> -> view x user's y post
  + <strong>skills/skill_id={your_skill_id}/offered/</strong> -> view all posts that offer a certain skill
  + <strong>skills/skill_id={your_skill_id}/needed/</strong> -> view all posts that need a certain skill
- + <strong>accounts/</strong>
+ + <strong>account/</strong>
  + <strong>accounts/</strong>
