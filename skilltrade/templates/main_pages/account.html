@@ -1,8 +1,10 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Account{% endblock %}
 
-
+{% block head %}
+<link rel="stylesheet" href="{% static 'styles/home.css'%}">
+{% endblock %}
 
 {% block content %}
 <div style="height: 100px;"></div>
@@ -21,8 +23,9 @@
                 </button>
               </div>
               <div class="ms-3" style="margin-top: 130px;">
-                <h5>Andy Horwitz</h5>
-                <p>New York</p>
+                <h5>
+                    {{ user.username }}</h5>
+                <p> Timisoara </p>
               </div>
             </div>
             <div class="p-4 text-black bg-body-tertiary">
@@ -51,29 +54,46 @@
                 </div>
               </div>
               <div class="d-flex justify-content-between align-items-center mb-4 text-body">
-                <p class="lead fw-normal mb-0">Recent photos</p>
-                <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                <p class="lead fw-normal mb-0">Your posts</p>
+
               </div>
-              <div class="row g-2">
-                <div class="col mb-2">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp" alt="image 1"
-                    class="w-100 rounded-3">
+              
+
+              <ul>
+                {% for post in posts %}
+                <div class="post-card">
+                  <div class="post-header">
+                    <h2 class="post-title">{{post.title}}</h2>
+                    <p class="post-author">{{post.author.username}}</p>
+                  </div>
+                  <div class="post-body">
+                    <p class="post-description">
+                      {{post.content}}
+                    </p>
+                    <div class="post-skills">
+                      <div class="skills-section">
+                        <h4>Skills I Have:</h4>
+                        <ul>
+                          <li>HTML</li>
+                          <li>CSS</li>
+                          <li>Basic JavaScript</li>
+                        </ul>
+                      </div>
+                      <div class="skills-section">
+                        <h4>Skills I Want to Learn:</h4>
+                        <ul>
+                          <li>Advanced JavaScript</li>
+                          <li>React</li>
+                          <li>Node.js</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col mb-2">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp" alt="image 1"
-                    class="w-100 rounded-3">
-                </div>
-              </div>
-              <div class="row g-2">
-                <div class="col">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp" alt="image 1"
-                    class="w-100 rounded-3">
-                </div>
-                <div class="col">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp" alt="image 1"
-                    class="w-100 rounded-3">
-                </div>
-              </div>
+              
+                {% endfor %}
+              </ul>
+                
             </div>
           </div>
         </div>
@@ -81,5 +101,5 @@
     </div>
   </section>
 
-
+ 
 {% endblock %}
