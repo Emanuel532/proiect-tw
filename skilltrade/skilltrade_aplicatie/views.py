@@ -105,7 +105,3 @@ def delete_post(request, post_id):
             return HttpResponseForbidden("You are not allowed to delete this post.")
 
     return redirect("/")
-
-
-# def landing(request):
-#   return render(request, 'landing.html')   -manu o facut deja landing deci nu mai e nevoie de asta ca root
