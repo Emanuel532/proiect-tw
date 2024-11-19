@@ -15,7 +15,7 @@
 /* Navbar brand */
 .navbar-brand {
     font-weight: bold;
-    font-size: 2em;
+    font-size: 35px;
 }
 
 
@@ -23,11 +23,12 @@
 .search-wrapper {
     display: flex;
     border: 1px solid rgba(0, 0, 0, 0.276);
-    align-items: stretch;
+    align-items: center;
     border-radius: 50px;
     background-color: #fff;
     overflow: hidden;
     max-width: 400px;
+    height: 50px;
 
 }
 
@@ -35,7 +36,7 @@
 #search {
     border: none;
     width: 350px;
-    font-size: 15px;
+    font-size: 20px;
 }
 
 #search:focus {
@@ -44,6 +45,7 @@
 
 .search-icon {
     margin: 10px;
+    font-size: 20px;
     color: rgba(0, 0, 0, 0.564);
 }
 
@@ -55,7 +57,7 @@
 
 .icon {
     margin: 0 12px;
-    font-size: 1.2em;
+    font-size: 20px;
     color: #333;
     text-decoration: none;
 }
@@ -69,27 +71,54 @@
 
 
 /* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
+@media (max-width: 820px) {
     .search-wrapper {
         width: 200px;
+        height: 40px;
     }
 
     .icon {
         margin: 0 10px;
-        font-size: 1em;
+        font-size: 18px;
     }
 
     .navbar-brand {
-        font-size: 1.4em;
+        font-size: 30px;
     }
 
     .navbar {
         padding: 0.5em 1em;
     }
+
+    #search,
+    .search-icon {
+        font-size: 18px;
+    }
+
+
 }
 
 @media (max-width: 576px) {
     .search-wrapper {
         width: 150px;
+        height: 35px;
+    }
+
+    .icon {
+        margin: 0 10px;
+        font-size: 15px;
+    }
+
+    .navbar-brand {
+        font-size: 25px;
+    }
+
+    .navbar {
+        padding: 0.5em 1em;
+    }
+
+    #search,
+    .search-icon {
+        font-size: 15px;
     }
 }
