@@ -10,16 +10,24 @@
                     aria-controls="pills-login" aria-selected="true">Login</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab-register" data-mdb-toggle="tab" href="#pills-register" role="tab"
-                    aria-controls="pills-register" aria-selected="false">Register</a>
+                <a class="nav-link" id="tab-register" href="{% url 'signup' %}">Register</a>
             </li>
         </ul>
 
         <div class="tab-content">
-            <!-- Login Tab -->
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
                 <form method="post">
                     {% csrf_token %}
+                    
+                    <!-- Display form-wide errors here -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
                     <div class="text-center mb-3">
                         <p>Sign in with:</p>
                         <button type="button" class="btn btn-link btn-floating mx-1">
@@ -40,11 +48,25 @@
                     <div class="form-outline mb-4">
                         <label for="username" class="form-label">Username</label>
                         {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger">
+                                {% for error in form.username.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <div class="form-outline mb-4">
                         <label for="password" class="form-label">Password</label>
                         {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.password.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="row mb-4">
@@ -59,67 +81,11 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Log In</button>
+                    <button type="submit" class="btn btn-primary btn-block mb-4" id="loginButton">Log In</button>
 
                     <div class="text-center">
-                        <p>Not a member? <a href="#pills-register" data-mdb-toggle="tab">Register</a></p>
+                        <p>Not a member? <a href="{% url 'signup' %}" data-mdb-toggle="tab">Register</a></p>
                     </div>
-                </form>
-            </div>
-
-            <!-- Register Tab -->
-            <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-                <form>
-                    <div class="text-center mb-3">
-                        <p>Sign up with:</p>
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-google"></i>
-                        </button>
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-github"></i>
-                        </button>
-                    </div>
-                    <p class="text-center">or:</p>
-                    
-                    <div class="form-outline mb-4">
-                        <input type="text" id="registerName" class="form-control" />
-                        <label class="form-label" for="registerName">Name</label>
-                    </div>
-                    
-                    <div class="form-outline mb-4">
-                        <input type="text" id="registerUsername" class="form-control" />
-                        <label class="form-label" for="registerUsername">Username</label>
-                    </div>
-                    
-                    <div class="form-outline mb-4">
-                        <input type="email" id="registerEmail" class="form-control" />
-                        <label class="form-label" for="registerEmail">Email</label>
-                    </div>
-                    
-                    <div class="form-outline mb-4">
-                        <input type="password" id="registerPassword" class="form-control" />
-                        <label class="form-label" for="registerPassword">Password</label>
-                    </div>
-                    
-                    <div class="form-outline mb-4">
-                        <input type="password" id="registerRepeatPassword" class="form-control" />
-                        <label class="form-label" for="registerRepeatPassword">Repeat password</label>
-                    </div>
-
-                    <div class="form-check d-flex justify-content-center mb-4">
-                        <input class="form-check-input me-2" type="checkbox" id="registerCheck" checked />
-                        <label class="form-check-label" for="registerCheck">
-                            I have read and agree to the terms
-                        </label>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block mb-3">Sign Up</button>
                 </form>
             </div>
         </div>
