@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 from .modele.skills_models import Skill
 from .models import Post
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def post_list(request):
@@ -33,6 +35,27 @@ def post_by_user_and_index(request, author_id,post_id):
 
     post = posts[post_id - 1]
     return render(request, 'post_page.html', {'post': post})
+@login_required
+def add_post(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        skills_offered_ids = request.POST.getlist('skills_offered')  # Handle multiple skills offered
+        skill_needed_id = request.POST.get('skills_needed')  # Handle single skill needed
 
+        post = Post.objects.create(
+            title=title,
+            content=content,
+            author=request.user
+        )
+        post.skills_offered.set(Skill.objects.filter(id__in=skills_offered_ids))
+        if skill_needed_id:
+            post.skills_needed.set(Skill.objects.filter(id=skill_needed_id))
+        post.save()
+
+        return redirect('posts')  # Redirect to the posts list or another page
+
+    skills = Skill.objects.all()  # Get all skills for the form
+    return render(request, 'add_post.html', {'skills': skills})
 #def landing(request):
  #   return render(request, 'landing.html')   -manu o facut deja landing deci nu mai e nevoie de asta ca root

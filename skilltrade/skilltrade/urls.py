@@ -21,6 +21,7 @@ from skilltrade_aplicatie import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('posts/new/', views.add_post, name='add_post'),
     path('posts/', views.post_list, name='posts'),
     path('posts/post_id=<int:post_id>/', views.post_by_id, name='post_by_id'),
     path('author/user_id=<int:author_id>/posts/', views.posts_by_author, name='posts_by_author_id'),

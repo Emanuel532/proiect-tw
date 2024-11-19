@@ -16,13 +16,13 @@ class Command(BaseCommand):
         user2, _ = User.objects.get_or_create(username="jane_smith")
         user3, _ = User.objects.get_or_create(username="alice")
 
-        # Create posts
+        # Create posts with multiple skills offered
         post1 = Post.objects.create(
             title="Looking for Django Expertise",
             content="I need help with a Django project.",
             author=user1,
         )
-        post1.skills_offered.set([python_skill])
+        post1.skills_offered.set([python_skill, django_skill])  # Offering Python and Django
         post1.skills_needed.set([django_skill])
 
         post2 = Post.objects.create(
@@ -30,7 +30,7 @@ class Command(BaseCommand):
             content="I am offering React expertise and need help with JavaScript.",
             author=user2,
         )
-        post2.skills_offered.set([react_skill])
+        post2.skills_offered.set([react_skill, js_skill])  # Offering React and JavaScript
         post2.skills_needed.set([js_skill])
 
         post3 = Post.objects.create(
@@ -38,7 +38,7 @@ class Command(BaseCommand):
             content="I am looking for someone experienced in Python for ML projects.",
             author=user3,
         )
-        post3.skills_offered.set([ml_skill])
+        post3.skills_offered.set([ml_skill, python_skill])  # Offering Machine Learning and Python
         post3.skills_needed.set([python_skill])
 
-        self.stdout.write(self.style.SUCCESS("Sample data created!"))
+        self.stdout.write(self.style.SUCCESS("Sample data with multiple offered skills created!"))
