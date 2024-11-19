@@ -31,12 +31,12 @@ def requests(request):
 
 def post_by_id(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    return render(request, "post_page.html", {"post": post})
+    return render(request, "secondary_pages/post_page.html", {"post": post})
 
 
 def posts_by_author(request, author_id):
     posts = Post.objects.filter(author__id=author_id)
-    return render(request, "posts_by_author.html", {"posts": posts})
+    return render(request, "secondary_pages/posts_by_author.html", {"posts": posts})
 
 
 def posts_by_skills_offered(request, skill_id):
@@ -44,7 +44,7 @@ def posts_by_skills_offered(request, skill_id):
     posts = Post.objects.filter(skills_offered=skill)
     return render(
         request,
-        "posts_by_skills.html",
+        "secondary_pages/posts_by_skills.html",
         {"posts": posts, "skill": skill, "filter_type": "offered"},
     )
 
@@ -54,7 +54,7 @@ def posts_by_skills_needed(request, skill_id):
     posts = Post.objects.filter(skills_needed=skill)
     return render(
         request,
-        "posts_by_skills.html",
+        "secondary_pages/posts_by_skills.html",
         {"posts": posts, "skill": skill, "filter_type": "needed"},
     )
 
@@ -62,10 +62,10 @@ def posts_by_skills_needed(request, skill_id):
 def post_by_user_and_index(request, author_id, post_id):
     posts = Post.objects.filter(author=author_id).order_by("created_at")
     if post_id <= 0 or post_id > posts.count():
-        return render(request, "no_posts.html", {"author": author_id})
+        return render(request, "secondary_pages/no_posts.html", {"author": author_id})
 
     post = posts[post_id - 1]
-    return render(request, "post_page.html", {"post": post})
+    return render(request, "secondary_pages/post_page.html", {"post": post})
 
 
 @login_required
@@ -75,10 +75,10 @@ def add_post(request):
         content = request.POST.get("content")
         skills_offered_ids = request.POST.getlist(
             "skills_offered"
-        )  # Handle multiple skills offered
+        )
         skill_needed_id = request.POST.get(
             "skills_needed"
-        )  # Handle single skill needed
+        )
 
         post = Post.objects.create(title=title, content=content, author=request.user)
         post.skills_offered.set(Skill.objects.filter(id__in=skills_offered_ids))
@@ -86,10 +86,10 @@ def add_post(request):
             post.skills_needed.set(Skill.objects.filter(id=skill_needed_id))
         post.save()
 
-        return redirect("/")  # Redirect to the posts list or another page
+        return redirect("/")
 
-    skills = Skill.objects.all()  # Get all skills for the form
-    return render(request, "add_post.html", {"skills": skills})
+    skills = Skill.objects.all()
+    return render(request, "secondary_pages/add_post.html", {"skills": skills})
 
 
 @login_required
@@ -97,7 +97,6 @@ def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
     if request.method == "POST":
-        # Check if the logged-in user is the author
         if request.user == post.author:
             post.delete()
             return redirect("/")
