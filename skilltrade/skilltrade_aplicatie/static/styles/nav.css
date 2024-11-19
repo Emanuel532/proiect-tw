@@ -13,9 +13,6 @@
     font-size: 2em;
 }
 
-.navbar-brand:hover {
-    color: #007bff;
-}
 
 
 .search-wrapper {
@@ -57,9 +54,13 @@
     text-decoration: none;
 }
 
-.icon:hover {
+.navbar-brand:hover,
+.icon:hover,
+.active {
     color: #007bff;
+    transition: 0.5s;
 }
+
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {

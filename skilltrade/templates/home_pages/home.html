@@ -1,8 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block title %}SkillTrade{% endblock %}
 
-
+{% block head %}
+<link rel="stylesheet" href="{% static 'styles/home.css'%}">
+{% endblock %}
 
 {% block content %}
 
@@ -13,6 +17,10 @@
   <li>
     <a href="{% url 'post_by_id' post.id %}">{{ post.title }}</a> by {{ post.author.username }}
   </li>
+
   {% endfor %}
 </ul>
+<a href="/posts/new" class="fab">
+  <i class="fas fa-plus"></i>
+</a>
 {% endblock %}
