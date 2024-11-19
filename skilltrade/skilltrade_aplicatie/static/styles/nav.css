@@ -1,10 +1,15 @@
 /* Basic navbar styles */
 .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 2em;
     background-color: #f8f9fa;
+
 }
 
 /* Navbar brand */
@@ -25,6 +30,7 @@
     max-width: 400px;
 
 }
+
 
 #search {
     border: none;

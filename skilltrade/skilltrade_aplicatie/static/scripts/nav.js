@@ -14,4 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
             link.classList.remove('active');
         }
     });
+
+    const searchInput = document.querySelector('.search-input');
+    const searchWrapper = document.querySelector('.search-wrapper');
+    const searchIcon = document.querySelector('.search-icon');
+
+    searchInput.addEventListener('focus', () => {
+        searchWrapper.style.border = '2px solid #007bff';
+        searchInput.placeholder = ''
+        searchIcon.style.color = '#007bff';
+    });
+
+    searchInput.addEventListener('blur', () => {
+        searchWrapper.style.border = '';
+        searchIcon.style.color = '';
+        searchInput.placeholder = 'Search'
+    });
 });
