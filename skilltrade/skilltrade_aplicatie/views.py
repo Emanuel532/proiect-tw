@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -57,5 +58,19 @@ def add_post(request):
 
     skills = Skill.objects.all()  # Get all skills for the form
     return render(request, 'add_post.html', {'skills': skills})
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        # Check if the logged-in user is the author
+        if request.user == post.author:
+            post.delete()
+            return redirect('/posts/')
+        else:
+            return HttpResponseForbidden('You are not allowed to delete this post.')
+
+    return redirect('/posts/')
+
 #def landing(request):
  #   return render(request, 'landing.html')   -manu o facut deja landing deci nu mai e nevoie de asta ca root

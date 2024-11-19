@@ -25,5 +25,18 @@
             <li>No skills needed</li>
         {% endfor %}
     </ul>
+
+    {% if request.user == post.author %}
+        <form method="POST" action="{% url 'delete_post' post.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete Post</button>
+        </form>
+    {% else %}
+        <form>
+            {% csrf_token %}
+            <button type="submit">Request</button>
+        </form>
+    {% endif %}
+
 </body>
 </html>
