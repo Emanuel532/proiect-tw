@@ -5,9 +5,9 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="card p-4 shadow" style="width: 100%; max-width: 600px;">
         <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="tab-register" href="{% url 'login' %}" >Login</a>
-        </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab-login" href="{% url 'login' %}" >Login</a>
+            </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-register" data-mdb-toggle="tab" href="#pills-register" role="tab"
                     aria-controls="pills-register" aria-selected="true">Register</a>
@@ -18,6 +18,16 @@
             <div class="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                 <form method="post">
                     {% csrf_token %}
+                    
+                    <!-- Display form-wide errors here -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
                     <div class="text-center mb-3">
                         <p>Sign up with:</p>
                         <button type="button" class="btn btn-link btn-floating mx-1">
@@ -38,6 +48,7 @@
                     <div class="form-outline mb-4">
                         <label for="username" class="form-label">Username</label>
                         {{ form.username }}
+                        
                         {% if form.username.errors %}
                             <div class="text-danger">
                                 {% for error in form.username.errors %}
