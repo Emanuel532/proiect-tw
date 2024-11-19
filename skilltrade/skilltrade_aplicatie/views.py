@@ -5,10 +5,25 @@ from .modele.skills_models import Skill
 from .models import Post
 
 
-# Create your views here.
+# Pages
 def home(request):
     posts = Post.objects.all()
-    return render(request, "home.html", {"posts": posts})
+    return render(request, "home_pages/main.html", {"posts": posts})
+
+
+def messages(request):
+    return render(request, "main_pages/messages.html")
+
+
+def account(request):
+    return render(request, "main_pages/account.html")
+
+
+def requests(request):
+    return render(request, "main_pages/requests.html")
+
+
+# API
 
 
 def post_by_id(request, post_id):

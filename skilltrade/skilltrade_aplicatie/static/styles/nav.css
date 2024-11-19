@@ -1,0 +1,88 @@
+/* Basic navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2em;
+    background-color: #f8f9fa;
+}
+
+/* Navbar brand */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.navbar-brand:hover {
+    color: #007bff;
+}
+
+
+.search-wrapper {
+    display: flex;
+    border: 1px solid rgba(0, 0, 0, 0.276);
+    align-items: stretch;
+    border-radius: 50px;
+    background-color: #fff;
+    overflow: hidden;
+    max-width: 400px;
+
+}
+
+#search {
+    border: none;
+    width: 350px;
+    font-size: 15px;
+}
+
+#search:focus {
+    outline: none;
+}
+
+.search-icon {
+    margin: 10px;
+    color: rgba(0, 0, 0, 0.564);
+}
+
+
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin: 0 12px;
+    font-size: 1.2em;
+    color: #333;
+    text-decoration: none;
+}
+
+.icon:hover {
+    color: #007bff;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .search-wrapper {
+        width: 200px;
+    }
+
+    .icon {
+        margin: 0 10px;
+        font-size: 1em;
+    }
+
+    .navbar-brand {
+        font-size: 1.4em;
+    }
+
+    .navbar {
+        padding: 0.5em 1em;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-wrapper {
+        width: 150px;
+    }
+}
