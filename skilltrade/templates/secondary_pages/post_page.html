@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ post.title }}</title>
-</head>
-<body>
-    <h1>{{ post.title }}</h1>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'styles/product_page.css'%}">
+{% endblock %}
+
+{% block content %}
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+      <div class="col-md-5 p-lg-5 mx-auto my-5">
+        <h1 class="display-4 font-weight-normal">Punny headline</h1>
+        <p class="lead font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Quisque porta in risus vel fermentum. Duis eget elit massa. Integer luctus odio a hendrerit dignissim.
+            Pellentesque cursus vitae lacus a tempus. Nulla sollicitudin fermentum dignissim.
+            Duis lacinia, tortor.Pellentesque cursus vitae lacus a tempus. Nulla sollicitudin fermentum dignissim.
+            Duis lacinia, tortor </p>
+        <a class="btn btn-outline-secondary" href="#">Coming soon</a>
+      </div>
+      <div class="product-device box-shadow d-none d-md-block"></div>
+      <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
+    </div>
+   <!-- <h1>{{ post.title }}</h1>
     <p>By: {{ post.author.username }}</p>
     <p>{{ post.content }}</p>
 
@@ -37,6 +53,5 @@
             <button type="submit">Request</button>
         </form>
     {% endif %}
-
-</body>
-</html>
+ -->
+{% endblock %}
