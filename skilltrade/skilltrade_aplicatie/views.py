@@ -86,7 +86,7 @@ def add_post(request):
             post.skills_needed.set(Skill.objects.filter(id=skill_needed_id))
         post.save()
 
-        return redirect("posts")  # Redirect to the posts list or another page
+        return redirect("/")  # Redirect to the posts list or another page
 
     skills = Skill.objects.all()  # Get all skills for the form
     return render(request, "add_post.html", {"skills": skills})
@@ -100,11 +100,11 @@ def delete_post(request, post_id):
         # Check if the logged-in user is the author
         if request.user == post.author:
             post.delete()
-            return redirect("/posts/")
+            return redirect("/")
         else:
             return HttpResponseForbidden("You are not allowed to delete this post.")
 
-    return redirect("/posts/")
+    return redirect("/")
 
 
 # def landing(request):

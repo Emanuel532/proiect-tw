@@ -24,7 +24,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # API
     path("posts/new/", views.add_post, name="add_post"),
-    path("posts/", views.post_list, name="posts"),
     path("post/delete/<int:post_id>/", views.delete_post, name="delete_post"),
     path("posts/post_id=<int:post_id>/", views.post_by_id, name="post_by_id"),
     path(
