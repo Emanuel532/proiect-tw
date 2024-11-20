@@ -19,9 +19,7 @@
                     <div>
                         {% for skill in post.skills_needed.all %}
                         <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
-                            aria-disabled="true">{{
-                            skill.name
-                            }}</a>
+                            aria-disabled="true">{{ skill.name }}</a>
                         {% empty %}
                         <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
                             aria-disabled="true">No
@@ -33,14 +31,10 @@
                     <div class="pb-3">
                         {% for skill in post.skills_offered.all %}
                         <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
-                            aria-disabled="true">{{
-                            skill.name
-                            }}</a>
+                            aria-disabled="true">{{ skill.name }}</a>
                         {% empty %}
                         <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
-                            aria-disabled="true">No
-                            skills
-                            offered.</a>
+                            aria-disabled="true">No skills offered.</a>
                         {% endfor %}
                     </div>
                 </div>
