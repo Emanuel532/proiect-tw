@@ -93,8 +93,17 @@
               
                 {% endfor %}
               </ul>
-                
+              <div class="mb-5  text-body">
+                <p class="lead fw-normal mb-1">User options</p>
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger text-body" style="z-index: 1;">
+                        Logout
+                    </button>
+                </form>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
