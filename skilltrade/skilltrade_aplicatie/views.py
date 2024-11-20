@@ -18,6 +18,7 @@ def messages(request):
     return render(request, "main_pages/messages.html")
 
 
+@login_required
 def account(request):
     return render(
         request,
