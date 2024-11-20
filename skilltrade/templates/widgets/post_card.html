@@ -1,0 +1,50 @@
+{% load static %}
+
+<link rel="stylesheet" href="{%static 'styles/post_card.css'%}">
+
+
+<a href="{% url 'post_by_id' post.id %}" class="text-decoration-none text-dark">
+    <div class="post-card">
+        <div class="post-header">
+            <h2 class="post-title">{{post.title}}</h2>
+            <p class="post-author">by {{post.author.username}}</p>
+        </div>
+        <div class="post-body">
+            <p class="post-description">
+                {{post.content}}
+            </p>
+            <div class="post-skills">
+                <div class="text-left">
+                    <h6 class="text-muted">Skills Needed:</h6>
+                    <div>
+                        {% for skill in post.skills_needed.all %}
+                        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
+                            aria-disabled="true">{{
+                            skill.name
+                            }}</a>
+                        {% empty %}
+                        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
+                            aria-disabled="true">No
+                            skills
+                            needed.</a>
+                        {% endfor %}
+                    </div>
+                    <h6 class="text-muted pt-1">Skills Offered:</h6>
+                    <div class="pb-3">
+                        {% for skill in post.skills_offered.all %}
+                        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
+                            aria-disabled="true">{{
+                            skill.name
+                            }}</a>
+                        {% empty %}
+                        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
+                            aria-disabled="true">No
+                            skills
+                            offered.</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

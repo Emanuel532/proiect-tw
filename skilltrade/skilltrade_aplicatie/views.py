@@ -19,7 +19,11 @@ def messages(request):
 
 
 def account(request):
-    return render(request, "main_pages/account.html", {"posts": Post.objects.filter(author=request.user), 'user': request.user})
+    return render(
+        request,
+        "main_pages/account.html",
+        {"posts": Post.objects.filter(author=request.user), "user": request.user},
+    )
 
 
 def requests(request):
@@ -73,12 +77,8 @@ def add_post(request):
     if request.method == "POST":
         title = request.POST.get("title")
         content = request.POST.get("content")
-        skills_offered_ids = request.POST.getlist(
-            "skills_offered"
-        )
-        skill_needed_id = request.POST.get(
-            "skills_needed"
-        )
+        skills_offered_ids = request.POST.getlist("skills_offered")
+        skill_needed_id = request.POST.get("skills_needed")
 
         post = Post.objects.create(title=title, content=content, author=request.user)
         post.skills_offered.set(Skill.objects.filter(id__in=skills_offered_ids))
