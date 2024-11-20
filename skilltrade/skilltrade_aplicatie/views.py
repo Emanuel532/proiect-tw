@@ -19,7 +19,7 @@ def messages(request):
 
 
 def account(request):
-    return render(request, "main_pages/account.html")
+    return render(request, "main_pages/account.html", {"posts": Post.objects.filter(author=request.user), 'user': request.user})
 
 
 def requests(request):
