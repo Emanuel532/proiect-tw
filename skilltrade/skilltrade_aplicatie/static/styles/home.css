@@ -1,72 +1,3 @@
-.post-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    max-width: 400px;
-    margin: 20px auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.post-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-}
-
-.post-header {
-    padding: 16px;
-    background-color: #007bff;
-    color: #fff;
-    text-align: center;
-}
-
-.post-title {
-    margin: 0;
-    font-size: 20px;
-}
-
-.post-author {
-    margin: 5px 0 0;
-    font-size: 14px;
-    font-style: italic;
-}
-
-.post-body {
-    padding: 16px;
-}
-
-.post-description {
-    margin: 0 0 20px;
-    color: #555;
-    line-height: 1.5;
-}
-
-.post-skills {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.skills-section h4 {
-    margin: 0 0 8px;
-    font-size: 16px;
-    color: #333;
-}
-
-.skills-section ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    color: #555;
-}
-
-.skills-section ul li {
-    margin: 4px 0;
-    font-size: 14px;
-}
-
-
 .fab {
     position: fixed;
     bottom: 20px;
@@ -79,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     text-decoration: none;
     font-size: 24px;
     z-index: 1000;

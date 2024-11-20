@@ -10,41 +10,20 @@
 
 {% block content %}
 
-<div style="height: 70px;"></div>
-<ul>
-  {% for post in posts %}
-  <div class="post-card">
-    <div class="post-header">
-      <h2 class="post-title">{{post.title}}</h2>
-      <p class="post-author">{{post.author.username}}</p>
-    </div>
-    <div class="post-body">
-      <p class="post-description">
-        {{post.content}}
-      </p>
-      <div class="post-skills">
-        <div class="skills-section">
-          <h4>Skills I Have:</h4>
-          <ul>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>Basic JavaScript</li>
-          </ul>
-        </div>
-        <div class="skills-section">
-          <h4>Skills I Want to Learn:</h4>
-          <ul>
-            <li>Advanced JavaScript</li>
-            <li>React</li>
-            <li>Node.js</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+<div style="height: 90px;"></div>
 
-  {% endfor %}
-</ul>
+<div class="container">
+  <div class="row g-5">
+    {% for post in posts %}
+    <div class="col-md-4">
+      {% include 'widgets/post_card.html' with post=post %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div style="height: 70px;"></div>
+
 
 
 
