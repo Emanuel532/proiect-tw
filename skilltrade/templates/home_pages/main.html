@@ -1,5 +1,7 @@
 {% if user.is_authenticated %}
 {% include "home_pages/home.html" %}
 {% else %}
-{% include "home_pages/landing.html" %}
+<script>
+    window.location.href = "/accounts/login";
+</script>
 {% endif %}
