@@ -7,7 +7,9 @@
 {% endblock %}
 
 {% block content %}
-<div style="height: 100px;"></div>
+
+{% include 'widgets/navbar.html' %}
+<div style="height:50px;"></div>
 <section class="h-100 gradient-custom-2">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center">
@@ -67,23 +69,24 @@
                   {% include 'widgets/post_card.html' with post=post %}
                 </div>
                 {% endfor %}
-              </ul>
-              <div class="mb-5  text-body">
-                <p class="lead fw-normal mb-1">User options</p>
-                <form method="POST" action="{% url 'logout' %}">
+                </ul>
+                <div class="mb-5  text-body">
+                  <p class="lead fw-normal mb-1">User options</p>
+                  <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger text-body" style="z-index: 1;">
-                        Logout
+                    <button type="submit" class="btn btn-outline-danger text-danger" style="z-index: 1;">
+                      Logout
                     </button>
-                </form>
-              </div>
-            </div>
 
+                  </form>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </section>
 
 

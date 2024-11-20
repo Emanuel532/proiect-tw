@@ -1,9 +1,114 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Messages{% endblock %}
+{%block title%} Messages {%endblock%}
 
+{%block head%}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .chat-container {
+        max-width: 600px;
+        margin: 50px auto;
+        height: 400px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
+    .message-bubble {
+        max-width: 75%;
+        padding: 10px 15px;
+        border-radius: 20px;
+        margin-bottom: 10px;
+    }
 
-{% block content %}
+    .message-left {
+        background-color: #e9ecef;
+        align-self: flex-start;
+    }
 
-{% endblock %}
+    .message-right {
+        background-color: #007bff;
+        color: white;
+        align-self: flex-end;
+    }
+
+    .chat-box {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+
+    .input-container {
+        display: flex;
+        padding: 10px 0;
+    }
+
+    .input-container input {
+        border-radius: 20px;
+        border: 1px solid #ced4da;
+        padding: 10px;
+        width: 90%;
+    }
+
+    .input-container button {
+        margin-left: 10px;
+        border-radius: 50%;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px;
+    }
+</style>
+{%endblock%}
+
+{%block content%}
+{% include 'widgets/navbar.html' %}
+
+<div style="height: 50px;"></div>
+
+<div class="chat-container">
+    <!-- Chat Messages -->
+    <div class="chat-box">
+        <!-- Left Message -->
+        <div class="d-flex align-items-center mb-3">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                style="width: 50px; z-index: 1" class="rounded-circle me-2" alt="User 1">
+            <div class="message-bubble message-left">
+                <p class="mb-0">Hey, how's it going?</p>
+                <small class="text-muted">10:00 AM</small>
+            </div>
+        </div>
+
+        <!-- Right Message -->
+        <div class="d-flex align-items-center mb-3 justify-content-end">
+            <div class="message-bubble message-right">
+                <p class="mb-0">I'm good, thanks! How about you?</p>
+                <small class="text-muted">10:02 AM</small>
+            </div>
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                style="width: 50px; z-index: 1" class="rounded-circle ms-2" alt="User 2">
+        </div>
+
+        <!-- Left Message -->
+        <div class="d-flex align-items-center mb-3">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                style="width: 50px; z-index: 1" class="rounded-circle me-2" alt="User 1">
+            <div class="message-bubble message-left">
+                <p class="mb-0">I'm doing great! Let's catch up soon.</p>
+                <small class="text-muted">10:05 AM</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Box -->
+    <div class="input-container">
+        <input type="text" placeholder="Type a message..." aria-label="Type a message">
+        <button><i class="bi bi-send"></i> Send</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{%endblock%}

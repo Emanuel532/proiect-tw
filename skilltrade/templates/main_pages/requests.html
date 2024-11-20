@@ -1,9 +1,72 @@
-{% extends "base.html" %}
-
-{% block title %}Requests{% endblock %}
-
-
-
+{% extends 'base.html' %} <!-- Assuming 'base.html' includes your navbar -->
 {% block content %}
+
+{% include 'widgets/navbar.html' %}
+<div style="height: 70px;"></div>
+
+<div class="container mt-4">
+    <!-- Tabs for Requests and Added -->
+    <div class="d-flex justify-content-center mb-3">
+        <button class="btn btn-dark me-2">Requests</button>
+        <button class="btn btn-outline-dark">Added</button>
+    </div>
+
+    <!-- List of Items -->
+    <div class="d-flex flex-column align-items-center gap-4">
+        <!-- Card 1 -->
+        <div class="card" style="width: 100%; max-width: 400px;">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                class="card-img-top" alt="Profile Picture">
+            <div class="card-body">
+                <h5 class="card-title">Name</h5>
+                <h6 class="card-subtitle text-muted">Talent</h6>
+                <p class="card-text mt-2">Description</p>
+                <div class="d-flex justify-content-between gap-3">
+                    <button class="btn btn-outline-danger btn-lg w-50">✖</button>
+                    <button class="btn btn-outline-success btn-lg w-50">
+                        <i class="bi bi-check-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card" style="width: 100%; max-width: 400px;">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                class="card-img-top" alt="Profile Picture">
+            <div class="card-body">
+                <h5 class="card-title">Name</h5>
+                <h6 class="card-subtitle text-muted">Talent</h6>
+                <p class="card-text mt-2">Description</p>
+                <div class="d-flex justify-content-between gap-3">
+                    <button class="btn btn-outline-danger btn-lg w-50">✖</button>
+                    <button class="btn btn-outline-success btn-lg w-50">
+                        <i class="bi bi-check-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card" style="width: 100%; max-width: 400px;">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                class="card-img-top" alt="Profile Picture">
+            <div class="card-body">
+                <h5 class="card-title">Name</h5>
+                <h6 class="card-subtitle text-muted">Talent</h6>
+                <p class="card-text mt-2">Description</p>
+                <div class="d-flex justify-content-between gap-3">
+                    <button class="btn btn-outline-danger btn-lg w-50">✖</button>
+                    <button class="btn btn-outline-success btn-lg w-50">
+                        <i class="bi bi-check-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="height: 50px;"></div>
 
 {% endblock %}

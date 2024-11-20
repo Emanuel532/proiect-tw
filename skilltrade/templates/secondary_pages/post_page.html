@@ -4,17 +4,20 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'styles/product_page.css'%}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block content %}
+{% include 'widgets/navbar.html' %}
 <div class="d-flex justify-content-center align-items-center vh-100 bg-light px-3">
-  <div class="col-md-5 p-lg-5 mx-auto my-5 text-center bg-light bg-gradient">
+  <div class="col-md-5 p-lg-5 mx-auto my-5 text-center bg-light bg-gradient shadow-lg rounded">
     <h1 class="display-4 font-weight-normal">{{ post.title }}</h1>
     <div class="d-flex justify-content-evenly">
       <h5 class="text-muted">by: {{ post.author.username }}</h5>
-      <h5 class="text-muted">{{ post.created_at|date:"b. d, Y" }} </h5>
+      <h5 class="text-muted">{{ post.created_at|date:"b. d, Y" }}</h5>
     </div>
     <p class="lead font-weight-normal">
       {{ post.content }}
@@ -23,32 +26,40 @@
       <h6 class="text-muted">Skills Needed:</h6>
       <div>
         {% for skill in post.skills_needed.all %}
-          <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button" aria-disabled="true">{{ skill.name }}</a>
+        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
+          aria-disabled="true">{{skill.name}}</a>
         {% empty %}
-          <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button" aria-disabled="true">No skills needed.</a>
+        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button" aria-disabled="true">No skills
+          needed</a>
         {% endfor %}
       </div>
       <h6 class="text-muted pt-1">Skills Offered:</h6>
       <div class="pb-3">
         {% for skill in post.skills_offered.all %}
-          <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button" aria-disabled="true">{{ skill.name }}</a>
+        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button"
+          aria-disabled="true">{{skill.name}}</a>
         {% empty %}
-          <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button" aria-disabled="true">No skills offered.</a>
+        <a href="#" class="btn btn-outline-primary btn-sm disabled" role="button" aria-disabled="true">No skills
+          offered</a>
         {% endfor %}
       </div>
     </div>
 
     {% if request.user == post.author %}
-      <form method="POST" action="{% url 'delete_post' post.id %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger btn-lg btn-block">Delete?</button>
-      </form>
+    <form method="POST" action="{% url 'delete_post' post.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
+    </form>
     {% else %}
-      <form>
-        {% csrf_token %}
-        <button type="submit" class="btn btn-success btn-lg btn-block">Request!</button>
-      </form>
+    <form>
+      {% csrf_token %}
+      <button type="submit" class="btn btn-lg btn-block"
+        style="background-color: #0054ad; border-color: #0054ad; color: white;">Request</button>
+
+    </form>
     {% endif %}
   </div>
 </div>
+
+
 {% endblock %}
