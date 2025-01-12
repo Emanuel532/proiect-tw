@@ -26,6 +26,7 @@ urlpatterns = [
     path("posts/new/", views.add_post, name="add_post"),
     path("post/delete/<int:post_id>/", views.delete_post, name="delete_post"),
     path("posts/post_id=<int:post_id>/", views.post_by_id, name="post_by_id"),
+    path("send_request/<int:post_id>/", views.send_request, name="send_request"),
     path(
         "author/user_id=<int:author_id>/posts/",
         views.posts_by_author,
@@ -55,5 +56,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("messages", views.messages, name="messages"),
     path("account", views.account, name="account"),
-    path("requests", views.requests, name="requests"),
+    path('requests/', views.manage_requests, name='manage_requests'),
+    path('request/<int:request_id>/respond/', views.respond_request, name='respond_request'),
+    #old: path("requests", views.requests, name="requests"),
 ]

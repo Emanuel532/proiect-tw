@@ -51,11 +51,9 @@
       <button type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
     </form>
     {% else %}
-    <form>
-      {% csrf_token %}
+    <form method="get" action="{% url 'send_request' post.id %}">
       <button type="submit" class="btn btn-lg btn-block"
         style="background-color: #0054ad; border-color: #0054ad; color: white;">Request</button>
-
     </form>
     {% endif %}
   </div>

@@ -3,13 +3,57 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .modele.skills_models import Skill
-from .models import Post
+from .models import Post, Request
+from .forms import RequestForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages 
+from django.db.models import Q
+
+#Requests
+@login_required
+@login_required
+def manage_requests(request):
+    received_requests = Request.objects.filter(recipient=request.user, status='pending')
+
+    sent_requests = Request.objects.filter(sender=request.user)
+
+    accepted_requests = Request.objects.filter(
+        Q(sender=request.user) | Q(recipient=request.user),
+        status='accepted'
+    )
+
+    unique_accepted_requests = []
+    pairs_seen = set()
+
+    for req in accepted_requests:
+        pair = tuple(sorted([req.sender.id, req.recipient.id]))
+        if pair not in pairs_seen:
+            pairs_seen.add(pair)
+            unique_accepted_requests.append(req)
+
+    return render(request, 'manage_requests.html', {
+        'received_requests': received_requests,
+        'sent_requests': sent_requests,
+        'accepted_requests': accepted_requests,
+    })
+
+@login_required
+def respond_request(request, request_id):
+    req = get_object_or_404(Request, id=request_id, recipient=request.user)
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'accept':
+            req.status = 'accepted'
+            #messages.success(request, "You have accepted the request.")
+        elif action == 'decline':
+            req.status = 'declined'
+            #messages.success(request, "You have declined the request.")
+        req.save()
+    return redirect('manage_requests')
+
 
 #Post search
-
-
 def post_list(request):
     query = request.GET.get('search', '')  
     if query:
@@ -49,6 +93,38 @@ def account(request):
 
 def requests(request):
     return render(request, "main_pages/requests.html")
+
+
+#REQUESTS:
+
+@login_required
+def send_request(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Prevent user from requesting their own post
+    if post.author == request.user:
+        #messages.error(request, "You cannot request your own post.")  # Use messages.error
+        return redirect('post_by_id', post_id=post.id)
+
+    # Check if a pending request already exists
+    existing_request = Request.objects.filter(sender=request.user, post=post, status='pending').exists()
+    if existing_request:
+        #messages.error(request, "You have already sent a request for this post.")  # Use messages.error
+        return redirect('post_by_id', post_id=post.id)
+
+    # Save the request
+    Request.objects.create(
+        sender=request.user,
+        recipient=post.author,
+        post=post,
+        status='pending'
+    )
+
+    # Add success message
+    #messages.success(request, "Your request has been sent.")  # Use messages.success
+    return redirect('post_by_id', post_id=post.id)
+
+
 
 
 # API
