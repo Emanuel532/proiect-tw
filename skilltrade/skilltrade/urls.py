@@ -50,6 +50,8 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     # Pages
+    
+    path("", views.filtered_homepage, name="filtered_homepage"),
     path("", views.home, name="home"),
     path("messages", views.messages, name="messages"),
     path("account", views.account, name="account"),

@@ -7,6 +7,26 @@ from .models import Post
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+#Post search
+
+
+def post_list(request):
+    query = request.GET.get('search', '')  
+    if query:
+        posts = Post.objects.filter(title__icontains=query)
+    else:
+        posts = Post.objects.all() 
+    
+    return render(request, 'home.html', {'posts': posts, 'query': query})
+
+def filtered_homepage(request):
+    query = request.GET.get('search', '')
+    if query:
+        posts = Post.objects.filter(title__icontains=query) 
+    else:
+        posts = Post.objects.all()  
+    
+    return render(request, 'home_pages/main.html', {'posts': posts, 'query': query})
 
 # Pages
 def home(request):
