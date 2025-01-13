@@ -3,12 +3,15 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .modele.skills_models import Skill
-from .models import Post, Request, ConversationMessage
+from .models import Post, Request, ConversationMessage, UserContacts
 from .forms import RequestForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.utils.timezone import now
+from .consumers import ChatConsumer
+import logging
 
 
 # Requests
@@ -49,6 +52,14 @@ def respond_request(request, request_id):
     if request.method == "POST":
         action = request.POST.get("action")
         if action == "accept":
+            if not UserContacts.objects.filter(
+                user=req.sender, contacts=req.recipient
+            ).exists():
+                UserContacts.objects.create(user=req.sender).contacts.add(req.recipient)
+            if not UserContacts.objects.filter(
+                user=req.recipient, contacts=req.sender
+            ).exists():
+                UserContacts.objects.create(user=req.recipient).contacts.add(req.sender)
             req.status = "accepted"
             # messages.success(request, "You have accepted the request.")
         elif action == "decline":
@@ -133,19 +144,26 @@ def send_request(request, post_id):
 
 @login_required
 def send_message(request, recipient_id):
+    logging.debug(f"User sender.username sent a message to recipient.username")
     recipient = get_object_or_404(User, id=recipient_id)
     if request.method == "POST":
         content = request.POST.get("message")
         if content:
             ConversationMessage.objects.create(
-                sender=request.user, recipient=recipient, message=content
+                sender=request.user, recipient=recipient, sent_text=content
             )
-        return redirect("view_conversation", recipient_id=recipient.id)
-    return render(request, "send_message.html", {"recipient": recipient})
+        return redirect("conversation", recipient_id=recipient.id)
+    sender = request.user
+    ChatConsumer.notify_user(recipient.id, sender)
+    logging.debug(f"User {sender.username} sent a message to {recipient.username}")
+    return redirect("conversation", recipient_id=recipient.id)
 
 
 @login_required
 def view_conversation(request, recipient_id):
+    logging.debug(
+        f"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUser {request.user.username} viewed a conversation with recipient.username"
+    )
     recipient = get_object_or_404(User, id=recipient_id)
     messages = ConversationMessage.objects.filter(
         sender__in=[request.user, recipient],
@@ -158,7 +176,11 @@ def view_conversation(request, recipient_id):
 
 @login_required
 def messages_home(request):
-    contacts = User.objects.exclude(id=request.user.id)
+    user_contacts = UserContacts.objects.filter(user=request.user).first()
+
+    # Return contacts if user has any, else return an empty list (clearer than User.objects.none())
+    contacts = user_contacts.contacts.all() if user_contacts else []
+
     return render(request, "messages/messages_home.html", {"contacts": contacts})
 
 

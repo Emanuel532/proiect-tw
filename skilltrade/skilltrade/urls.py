@@ -66,5 +66,6 @@ urlpatterns = [
         views.conversation,
         name="conversation",
     ),
+    path("send_message/<int:recipient_id>/", views.send_message, name="send_message"),
     # old: path("requests", views.requests, name="requests"),
 ]

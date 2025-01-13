@@ -44,6 +44,14 @@ class Request(models.Model):
         )
 
 
+class UserContacts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    contacts = models.ManyToManyField(User, related_name="contacts")
+
+    def __str__(self):
+        return f"{self.user.username}'s contacts"
+
+
 class ConversationMessage(models.Model):
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="sent_messages"
