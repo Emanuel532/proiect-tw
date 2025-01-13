@@ -1,26 +1,26 @@
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .modele.skills_models import Skill
-from .models import Post, Request
+from .models import Post, Request, ConversationMessage
 from .forms import RequestForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages 
+from django.contrib import messages
 from django.db.models import Q
 
-#Requests
+
+# Requests
 @login_required
 @login_required
 def manage_requests(request):
-    received_requests = Request.objects.filter(recipient=request.user, status='pending')
+    received_requests = Request.objects.filter(recipient=request.user, status="pending")
 
     sent_requests = Request.objects.filter(sender=request.user)
 
     accepted_requests = Request.objects.filter(
-        Q(sender=request.user) | Q(recipient=request.user),
-        status='accepted'
+        Q(sender=request.user) | Q(recipient=request.user), status="accepted"
     )
 
     unique_accepted_requests = []
@@ -32,54 +32,57 @@ def manage_requests(request):
             pairs_seen.add(pair)
             unique_accepted_requests.append(req)
 
-    return render(request, 'manage_requests.html', {
-        'received_requests': received_requests,
-        'sent_requests': sent_requests,
-        'accepted_requests': accepted_requests,
-    })
+    return render(
+        request,
+        "manage_requests.html",
+        {
+            "received_requests": received_requests,
+            "sent_requests": sent_requests,
+            "accepted_requests": accepted_requests,
+        },
+    )
+
 
 @login_required
 def respond_request(request, request_id):
     req = get_object_or_404(Request, id=request_id, recipient=request.user)
-    if request.method == 'POST':
-        action = request.POST.get('action')
-        if action == 'accept':
-            req.status = 'accepted'
-            #messages.success(request, "You have accepted the request.")
-        elif action == 'decline':
-            req.status = 'declined'
-            #messages.success(request, "You have declined the request.")
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if action == "accept":
+            req.status = "accepted"
+            # messages.success(request, "You have accepted the request.")
+        elif action == "decline":
+            req.status = "declined"
+            # messages.success(request, "You have declined the request.")
         req.save()
-    return redirect('manage_requests')
+    return redirect("manage_requests")
 
 
-#Post search
+# Post search
 def post_list(request):
-    query = request.GET.get('search', '')  
+    query = request.GET.get("search", "")
     if query:
         posts = Post.objects.filter(title__icontains=query)
     else:
-        posts = Post.objects.all() 
-    
-    return render(request, 'home.html', {'posts': posts, 'query': query})
+        posts = Post.objects.all()
+
+    return render(request, "home.html", {"posts": posts, "query": query})
+
 
 def filtered_homepage(request):
-    query = request.GET.get('search', '')
+    query = request.GET.get("search", "")
     if query:
-        posts = Post.objects.filter(title__icontains=query) 
+        posts = Post.objects.filter(title__icontains=query)
     else:
-        posts = Post.objects.all()  
-    
-    return render(request, 'home_pages/main.html', {'posts': posts, 'query': query})
+        posts = Post.objects.all()
+
+    return render(request, "home_pages/main.html", {"posts": posts, "query": query})
+
 
 # Pages
 def home(request):
     posts = Post.objects.all()
     return render(request, "home_pages/main.html", {"posts": posts})
-
-
-def messages(request):
-    return render(request, "main_pages/messages.html")
 
 
 @login_required
@@ -95,7 +98,8 @@ def requests(request):
     return render(request, "main_pages/requests.html")
 
 
-#REQUESTS:
+# REQUESTS:
+
 
 @login_required
 def send_request(request, post_id):
@@ -103,28 +107,84 @@ def send_request(request, post_id):
 
     # Prevent user from requesting their own post
     if post.author == request.user:
-        #messages.error(request, "You cannot request your own post.")  # Use messages.error
-        return redirect('post_by_id', post_id=post.id)
+        # messages.error(request, "You cannot request your own post.")  # Use messages.error
+        return redirect("post_by_id", post_id=post.id)
 
     # Check if a pending request already exists
-    existing_request = Request.objects.filter(sender=request.user, post=post, status='pending').exists()
+    existing_request = Request.objects.filter(
+        sender=request.user, post=post, status="pending"
+    ).exists()
     if existing_request:
-        #messages.error(request, "You have already sent a request for this post.")  # Use messages.error
-        return redirect('post_by_id', post_id=post.id)
+        # messages.error(request, "You have already sent a request for this post.")  # Use messages.error
+        return redirect("post_by_id", post_id=post.id)
 
     # Save the request
     Request.objects.create(
-        sender=request.user,
-        recipient=post.author,
-        post=post,
-        status='pending'
+        sender=request.user, recipient=post.author, post=post, status="pending"
     )
 
     # Add success message
-    #messages.success(request, "Your request has been sent.")  # Use messages.success
-    return redirect('post_by_id', post_id=post.id)
+    # messages.success(request, "Your request has been sent.")  # Use messages.success
+    return redirect("post_by_id", post_id=post.id)
 
 
+# MESSAGES:
+
+
+@login_required
+def send_message(request, recipient_id):
+    recipient = get_object_or_404(User, id=recipient_id)
+    if request.method == "POST":
+        content = request.POST.get("message")
+        if content:
+            ConversationMessage.objects.create(
+                sender=request.user, recipient=recipient, message=content
+            )
+        return redirect("view_conversation", recipient_id=recipient.id)
+    return render(request, "send_message.html", {"recipient": recipient})
+
+
+@login_required
+def view_conversation(request, recipient_id):
+    recipient = get_object_or_404(User, id=recipient_id)
+    messages = ConversationMessage.objects.filter(
+        sender__in=[request.user, recipient],
+        recipient__in=[request.user, recipient],
+    ).order_by("sent_at")
+    return render(
+        request, "conversation.html", {"recipient": recipient, "messages": messages}
+    )
+
+
+@login_required
+def messages_home(request):
+    contacts = User.objects.exclude(id=request.user.id)
+    return render(request, "messages/messages_home.html", {"contacts": contacts})
+
+
+@login_required
+def conversation(request, recipient_id):
+    recipient = get_object_or_404(User, id=recipient_id)
+
+    # Handle POST for sending a message
+    if request.method == "POST":
+        content = request.POST.get("message")  # Fetch message content from form
+        if content:  # Check if the message is not empty
+            ConversationMessage.objects.create(
+                sender=request.user, recipient=recipient, sent_text=content
+            )
+            return redirect("conversation", recipient_id=recipient.id)
+
+    # Retrieve messages between the two users
+    messages = ConversationMessage.objects.filter(
+        sender__in=[request.user, recipient], recipient__in=[request.user, recipient]
+    ).order_by("sent_at")
+
+    return render(
+        request,
+        "messages/conversation.html",
+        {"recipient": recipient, "messages": messages},
+    )
 
 
 # API

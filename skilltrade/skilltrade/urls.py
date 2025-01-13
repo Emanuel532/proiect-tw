@@ -51,12 +51,20 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     # Pages
-    
     path("", views.filtered_homepage, name="filtered_homepage"),
     path("", views.home, name="home"),
-    path("messages", views.messages, name="messages"),
     path("account", views.account, name="account"),
-    path('requests/', views.manage_requests, name='manage_requests'),
-    path('request/<int:request_id>/respond/', views.respond_request, name='respond_request'),
-    #old: path("requests", views.requests, name="requests"),
+    path("requests/", views.manage_requests, name="manage_requests"),
+    path(
+        "request/<int:request_id>/respond/",
+        views.respond_request,
+        name="respond_request",
+    ),
+    path("messages/", views.messages_home, name="messages_home"),
+    path(
+        "messages/conversation/<int:recipient_id>/",
+        views.conversation,
+        name="conversation",
+    ),
+    # old: path("requests", views.requests, name="requests"),
 ]

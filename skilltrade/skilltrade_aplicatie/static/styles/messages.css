@@ -1,0 +1,16 @@
+.contacts {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.conversation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.conversation-messages {
+    padding: 10px;
+    overflow-y: auto;
+}

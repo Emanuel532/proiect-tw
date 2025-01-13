@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Account{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'styles/messages.css'%}">
+{% endblock %}
+
+{% block content %}
+
+{% include 'widgets/navbar.html' %}
+
+<div style="height: 100px;"></div>
+
+<div class="container d-flex" style="height: 100vh;">
+    <div class="contacts bg-light border-end" style="width: 25%; overflow-y: auto;">
+        <h4>Contacts</h4>
+        <ul class="list-group">
+            {% for contact in contacts %}
+            <li class="list-group-item">
+                <a href="{% url 'conversation' contact.id %}">
+                    {{ contact.username }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="conversation flex-grow-1">
+        <p>Select a contact to view the conversation.</p>
+    </div>
+</div>
+
+{% endblock %}

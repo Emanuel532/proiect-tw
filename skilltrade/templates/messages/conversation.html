@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Account{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'styles/messages.css'%}">
+{% endblock %}
+
+{% block content %}
+
+{% include 'widgets/navbar.html' %}
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+
+
+    const userId = "{{ request.user.id }}";
+    const recipientId = "{{ recipient.id }}";
+
+    document.querySelector('form').onsubmit = function (e) {
+        e.preventDefault();
+        const messageInput = document.querySelector('[name="message"]');
+        const message = messageInput.value.trim();
+        if (message) {
+            socket.send(JSON.stringify({ message }));
+            messageInput.value = '';
+        }
+    };
+
+
+
+</script>
+
+
+
+<div class="d-flex flex-column" style="height: 100vh;">
+    <div class="conversation-header bg-primary text-white p-2">
+        <h4>Conversation with {{ recipient.username }}</h4>
+    </div>
+    <div class="conversation-messages flex-grow-1 p-3" style="overflow-y: auto;">
+        {% for msg in messages %}
+        <div class="{% if msg.sender == request.user %}text-end{% endif %}">
+            <p class="bg-{% if msg.sender == request.user %}info{% else %}light{% endif %} p-2 rounded">
+                <strong>{{ msg.sender.username }}</strong>: {{ msg.sent_text }}
+                <br>
+                <small>{{ msg.sent_at }}</small>
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    <form method="post" class="p-2 bg-light" action="{% url 'conversation' recipient.id %}">
+        {% csrf_token %}
+        <div class="input-group">
+            <textarea name="message" class="form-control" placeholder="Type your message"></textarea>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
