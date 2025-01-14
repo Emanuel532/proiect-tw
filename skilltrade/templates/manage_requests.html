@@ -3,11 +3,47 @@
 {% block content %}
 
 {% include 'widgets/navbar.html' %}
+<style>
+.custom-card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card-hover:hover {
+    transform: translateY(-10px);  /* Moves the card up by 10px */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Adds a subtle shadow */
+}
+
+/* Additional responsive styling for mobile view */
+@media (max-width: 767px) {
+    .custom-card-hover {
+        transform: translateY(0);  /* Prevent card movement on small screens */
+    }
+
+    .d-flex {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+    }
+
+    .card-body {
+        padding: 1rem; /* Reduce padding for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .custom-card-hover {
+        transform: translateY(0);  /* Prevent card movement on very small screens */
+    }
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+</style>
 
 <div class="container my-5 py-5">
     <!-- Tabs for Requests and Added -->
-    <div class="d-flex justify-content-center mb-4">
-        <button class="btn btn-dark me-2">Requests</button>
+    <div class="d-flex justify-content-center mb-4 flex-wrap">
+        <button class="btn btn-dark me-2 mb-2 mb-md-0">Requests</button>
         <button class="btn btn-outline-dark">Added</button>
     </div>
 
@@ -17,7 +53,7 @@
         {% for req in received_requests %}
         <div class="col-12 col-md-6 col-lg-4">
             <a href="{% url 'post_by_id' post_id=req.post.id %}" class="text-decoration-none">
-                <div class="card h-100 shadow-sm hover-card bg-light">
+                <div class="card h-100 shadow-sm hover-card bg-light custom-card-hover">
                     <div class="card-body p-4">
                         <h5 class="card-title mb-2 fw-bold text-dark"> <kbd>{{ req.sender.username }}</kbd></h5>
                         <h6 class="card-subtitle mb-3 text-muted">{{ req.post.title }}</h6>
@@ -43,7 +79,7 @@
         {% for req in accepted_requests %}
         <div class="col-12 col-md-6 col-lg-4">
             <a href="{% url 'post_by_id' post_id=req.post.id %}" class="text-decoration-none">
-                <div class="card h-100 shadow-sm hover-card bg-light">
+                <div class="card h-100 shadow-sm hover-card bg-light custom-card-hover">
                     <div class="card-body p-4">
                         <h5 class="card-title mb-2 fw-bold text-dark"> <kbd>{{ req.sender.username }}</kbd> and <kbd>{{ req.recipient.username }} </kbd></h5>
                         <p class="card-text mt-2 text-muted">Status: <span class="text-primary">Accepted</span></p>
@@ -62,7 +98,7 @@
         {% for req in sent_requests %}
         <div class="col-12 col-md-6 col-lg-4">
             <a href="{% url 'post_by_id' post_id=req.post.id %}" class="text-decoration-none">
-                <div class="card h-100 shadow-sm hover-card bg-light">
+                <div class="card h-100 shadow-sm hover-card bg-light custom-card-hover">
                     <div class="card-body p-4">
                         <h5 class="card-title mb-2 fw-bold text-dark">To: <kbd>{{ req.recipient.username }} </kbd></h5>
                         <h6 class="card-subtitle mb-3 text-muted">{{ req.post.title }}</h6>
