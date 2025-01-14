@@ -1,34 +1,36 @@
 {% extends 'base.html' %} <!-- Assuming 'base.html' includes your navbar -->
+{% block title %}My Requests{% endblock %}
 {% block content %}
 
 {% include 'widgets/navbar.html' %}
-<div style="height: 70px;"></div>
 
-<div class="container mt-4">
+<div class="container my-5 py-5">
     <!-- Tabs for Requests and Added -->
-    <div class="d-flex justify-content-center mb-3">
+    <div class="d-flex justify-content-center mb-4">
         <button class="btn btn-dark me-2">Requests</button>
         <button class="btn btn-outline-dark">Added</button>
     </div>
 
     <!-- Received Requests -->
-    <h2 class="mb-3">Received Requests</h2>
+    <h2 class="mb-4">Received Requests</h2>
     <div class="row g-4">
         {% for req in received_requests %}
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ req.sender.username }}</h5>
-                    <h6 class="card-subtitle text-muted">{{ req.post.title }}</h6>
-                    <form method="post" action="{% url 'respond_request' req.id %}">
-                        {% csrf_token %}
-                        <div class="d-flex justify-content-between gap-2 mt-3">
-                            <button type="submit" name="action" value="accept" class="btn btn-outline-success w-50">Accept</button>
-                            <button type="submit" name="action" value="decline" class="btn btn-outline-danger w-50">Decline</button>
-                        </div>
-                    </form>
+            <a href="{% url 'post_by_id' post_id=req.post.id %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm hover-card bg-light">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-2 fw-bold text-dark"> <kbd>{{ req.sender.username }}</kbd></h5>
+                        <h6 class="card-subtitle mb-3 text-muted">{{ req.post.title }}</h6>
+                        <form method="post" action="{% url 'respond_request' req.id %}">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between gap-3">
+                                <button type="submit" name="action" value="accept" class="btn btn-outline-success w-48">Accept</button>
+                                <button type="submit" name="action" value="decline" class="btn btn-outline-danger w-48">Decline</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% empty %}
         <p>No received requests.</p>
@@ -36,16 +38,18 @@
     </div>
 
     <!-- Accepted Requests -->
-    <h2 class="mt-5 mb-3">Accepted Requests</h2>
+    <h2 class="mt-5 mb-4">Accepted Requests</h2>
     <div class="row g-4">
         {% for req in accepted_requests %}
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ req.sender.username }} and {{ req.recipient.username }}</h5>
-                    <p class="card-text mt-2">Status: Accepted</p>
+            <a href="{% url 'post_by_id' post_id=req.post.id %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm hover-card bg-light">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-2 fw-bold text-dark"> <kbd>{{ req.sender.username }}</kbd> and <kbd>{{ req.recipient.username }} </kbd></h5>
+                        <p class="card-text mt-2 text-muted">Status: <span class="text-primary">Accepted</span></p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% empty %}
         <p>No accepted requests.</p>
@@ -53,24 +57,24 @@
     </div>
 
     <!-- Sent Requests -->
-    <h2 class="mt-5 mb-3">Sent Requests</h2>
+    <h2 class="mt-5 mb-4">Sent Requests</h2>
     <div class="row g-4">
         {% for req in sent_requests %}
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">To: {{ req.recipient.username }}</h5>
-                    <h6 class="card-subtitle text-muted">{{ req.post.title }}</h6>
-                    <p class="card-text mt-2">{{ req.status }}</p>
+            <a href="{% url 'post_by_id' post_id=req.post.id %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm hover-card bg-light">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-2 fw-bold text-dark">To: <kbd>{{ req.recipient.username }} </kbd></h5>
+                        <h6 class="card-subtitle mb-3 text-muted">{{ req.post.title }}</h6>
+                        <p class="card-text mt-2 text-muted">Status: <span class="text-primary">{{ req.status }}</span></p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% empty %}
         <p>No sent requests.</p>
         {% endfor %}
     </div>
 </div>
-
-<div style="height: 50px;"></div>
 
 {% endblock %}

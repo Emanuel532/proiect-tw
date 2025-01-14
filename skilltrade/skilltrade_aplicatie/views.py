@@ -143,6 +143,20 @@ def send_request(request, post_id):
     # messages.success(request, "Your request has been sent.")  # Use messages.success
     return redirect("post_by_id", post_id=post.id)
 
+@login_required
+def cancel_request(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Find the pending request sent by the current user
+    request_to_cancel = Request.objects.filter(
+        sender=request.user, post=post, status="pending"
+    ).first()
+
+    if request_to_cancel:
+        request_to_cancel.delete()  # Delete the request
+
+    return redirect("post_by_id", post_id=post.id)
+
 
 # MESSAGES:
 
@@ -225,9 +239,20 @@ def check_new_messages(request):
 # API
 
 
+@login_required
 def post_by_id(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    return render(request, "secondary_pages/post_page.html", {"post": post})
+
+    # Check if the current user has already sent a request for this post
+    existing_request = Request.objects.filter(
+        sender=request.user, post=post, status="pending"
+    ).exists()
+
+    return render(request, "secondary_pages/post_page.html", {
+        "post": post,
+        "existing_request": existing_request,
+    })
+
 
 
 def posts_by_author(request, author_id):

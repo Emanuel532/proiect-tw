@@ -85,7 +85,7 @@
         {% csrf_token %}
         <div class="input-group">
             <textarea name="message" class="form-control rounded-start border-secondary"
-                placeholder="Type your message..." rows="1" style="resize: none; width: 100%;"
+                placeholder="Type your message..." rows="1" style="resize: none; width: 100%;overflow: hidden"
                 oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';"></textarea>
             <button type="submit" class="btn btn-primary">Send</button>
         </div>

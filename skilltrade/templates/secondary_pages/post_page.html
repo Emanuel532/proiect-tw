@@ -51,13 +51,20 @@
       <button type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
     </form>
     {% else %}
-    <form method="get" action="{% url 'send_request' post.id %}">
+    {% if existing_request %}
+    <form method="POST" action="{% url 'cancel_request' post.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-warning btn-lg btn-block">Cancel Request</button>
+    </form>
+    {% else %}
+    <form method="POST" action="{% url 'send_request' post.id %}">
+      {% csrf_token %}
       <button type="submit" class="btn btn-lg btn-block"
         style="background-color: #0054ad; border-color: #0054ad; color: white;">Request</button>
     </form>
     {% endif %}
+    {% endif %}
   </div>
 </div>
-
 
 {% endblock %}

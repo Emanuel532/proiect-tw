@@ -48,7 +48,7 @@
                     <div class="form-outline mb-4">
                         <label for="username" class="form-label">Username</label>
                         {{ form.username }}
-                        
+
                         {% if form.username.errors %}
                             <div class="text-danger">
                                 {% for error in form.username.errors %}
@@ -92,10 +92,6 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-block mb-4" id="registerButton" disabled>Register</button>
-
-                    <div class="text-center">
-                        <p>Already a member? <a href="{% url 'login' %}" data-mdb-toggle="tab">Log in</a></p>
-                    </div>
                 </form>
             </div>
         </div>
@@ -110,7 +106,7 @@
         if (checkbox.checked) {
             registerButton.disabled = false;
         } else {
-            registerButton.disabled = true;   
+            registerButton.disabled = true;
         }
     }
 
