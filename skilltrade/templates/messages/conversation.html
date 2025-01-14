@@ -23,32 +23,31 @@
 </script>
 
 <script>
-    const userId = "{{ request.user.id }}";
-    const socket = new WebSocket(
-        `ws://${window.location.host}/ws/chat/${userId}/`
-    );
 
-    socket.onopen = function () {
-        console.log("WebSocket connection established.");
-    };
 
-    socket.onmessage = function (event) {
-        const data = JSON.parse(event.data);
-        console.log("Message received:", data);
 
-        if (data.message === "New message received") {
-            console.log(`New message from ${data.sender}`);
-            // You can add logic here to update the UI
-        }
-    };
+    let lastMessageCount = 0;
 
-    socket.onerror = function (error) {
-        console.error("WebSocket error:", error);
-    };
+    fetch('/messages/check-new-messages/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.unread_count > 0) {
+                lastMessageCount = data.unread_count;
+            }
+        })
+        .catch(error => console.error('Error fetching new messages:', error));
 
-    socket.onclose = function (event) {
-        console.log("WebSocket closed:", event.reason);
-    };
+    setInterval(() => {
+        fetch('/messages/check-new-messages/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.unread_count > 0 && data.unread_count > lastMessageCount) {
+                    lastMessageCount = data.unread_count;
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error fetching new messages:', error));
+    }, 1000);
 </script>
 
 

@@ -209,6 +209,14 @@ def conversation(request, recipient_id):
     )
 
 
+def check_new_messages(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User not authenticated"}, status=401)
+
+    unread_messages = ConversationMessage.objects.filter(recipient=request.user)
+    return JsonResponse({"unread_count": unread_messages.count()})
+
+
 # API
 
 
