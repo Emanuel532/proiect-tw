@@ -83,7 +83,12 @@ def post_list(request):
 def filtered_homepage(request):
     query = request.GET.get("search", "")
     if query:
-        posts = Post.objects.filter(title__icontains=query)
+        posts = Post.objects.filter(
+            Q(title__icontains=query)
+            | Q(content__icontains=query)
+            | Q(skills_offered__name__icontains=query)
+            | Q(skills_needed__name__icontains=query)
+        ).distinct()
     else:
         posts = Post.objects.all()
 
